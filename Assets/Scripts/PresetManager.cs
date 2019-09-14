@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Classes;
 using UnityEngine;
 
 public class PresetManager : MonoBehaviour
 {
+    public List<Preset> presetList = new List<Preset>();
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +17,4 @@ public class PresetManager : MonoBehaviour
         
     }
     
-    public Preset GetPreset(int id)
-    {
-        return new Preset(
-            new Color(1, 0, 1),
-            new Texture2D(0, 0)
-        );
-    }
 }

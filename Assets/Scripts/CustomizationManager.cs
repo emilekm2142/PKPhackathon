@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Classes;
 using UnityEngine;
 
 public class CustomizationManager : MonoBehaviour
@@ -25,7 +24,7 @@ public class CustomizationManager : MonoBehaviour
         PresetManager presetManager = GameObject.FindObjectOfType<PresetManager>();
 
         int presetId = apiManager.GetPreset();
-        Preset preset = presetManager.GetPreset(presetId);
+        Preset preset = presetManager.presetList[presetId];
         myWagon.ChangeColor(preset.color);
     }
 }
