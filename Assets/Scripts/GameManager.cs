@@ -51,9 +51,12 @@ public class GameManager : MonoBehaviour
         }
 
         makeRails(l.Item1, 0);
-        
-        t.AddWagon(false);
-        
+        makeRails(l.Item1, 2f);
+
+        foreach (var user in apiManager.users)
+        {
+	        t.AddWagon(false);
+        }
     }
 
     Train MakeTrain(string name, TrainTypes type, Vector3 position)

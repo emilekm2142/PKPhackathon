@@ -12,11 +12,13 @@ public class ApiManager : MonoBehaviour
     private int userId = 1;
     public User User { get; private set; }
     public TrainRide TrainRide { get; private set; }
+    public List<User> users { get; private set; }
 
     private void Awake()
     {
         FetchUser();
         FetchTrainRide();
+        FetchTrainUsers();
     }
 
     // Start is called before the first frame update
@@ -58,6 +60,20 @@ public class ApiManager : MonoBehaviour
             Debug.LogError("API Response is null");
         }
         TrainRide = (TrainRide) deserializer.ReadObject(stream);
+    }
+    
+    public void FetchTrainUsers()
+    {
+        HttpWebRequest request = (HttpWebRequest) WebRequest.Create(baseUrl + "train-ride/" + User.currentTrainRide + "/users");
+        HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+
+        DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(List<User>));
+        Stream stream = response.GetResponseStream();
+        if (stream == null)
+        {
+            Debug.LogError("API Response is null");
+        }
+        users = (List<User>) deserializer.ReadObject(stream);
     }
 
 }
