@@ -41,7 +41,8 @@ public class GameManager : MonoBehaviour
 	        if (i<l.Item1.Count-1){
 		       
 		        t.gameObject.transform.position = l.Item1[i];
-		        t.gameObject.transform.rotation = Quaternion.Euler(l.Item2[i]);
+		        float angle = Mathf.Atan2(l.Item2[i][2], l.Item2[i][0]);
+		        t.gameObject.transform.rotation = Quaternion.Euler(0,270-angle*360.0f/6.283185307f,0);
 		        i+=1;
 	        }
 	        
