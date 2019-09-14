@@ -1,13 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Net;
+using Classes;
 using UnityEngine;
 
-public class ApiManager : MonoBehaviour
+public class PresetManager : MonoBehaviour
 {
-    private const string baseUrl = "http://";
-    private int userId = 0;
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +16,12 @@ public class ApiManager : MonoBehaviour
     {
         
     }
-
-    public int GetPreset()
-    {
-//        HttpWebRequest request = (HttpWebRequest)WebRequest.Create();
-        return 0;
-    }
     
+    public Preset GetPreset(int id)
+    {
+        return new Preset(
+            new Color(1, 0, 1),
+            new Texture2D(0, 0)
+        );
+    }
 }

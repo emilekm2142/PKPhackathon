@@ -20,7 +20,7 @@ public class Wagon : MonoBehaviour
         return Utils.HasComponent<Player>(this.gameObject);
     }
 
-    void ChangeColor(Color c)
+    public void ChangeColor(Color c)
     {
         GetComponent<Renderer>().material.color = c;
     }
