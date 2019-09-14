@@ -45,9 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   currentPath:
+    points: []
     name: 
-    start: {x: 0, y: 0, z: 0}
-    end: {x: 0, y: 0, z: 0}
-    handle: {x: 0, y: 0, z: 0}
   isFollowingAnyPath: 0
   thomas: {fileID: 0}
