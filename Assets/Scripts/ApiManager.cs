@@ -76,4 +76,12 @@ public class ApiManager : MonoBehaviour
         users = (List<User>) deserializer.ReadObject(stream);
     }
 
+    public void SubmitUserPosition(Vector3 position)
+    {
+        HttpWebRequest request = (HttpWebRequest) WebRequest.Create(baseUrl + "user/" + User.currentTrainRide + "/update");
+        HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+        
+        Stream stream = response.GetResponseStream();
+    }
+
 }

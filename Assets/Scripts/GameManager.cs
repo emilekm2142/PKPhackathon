@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
 			    Debug.Log("Making rails between " + point.stationName + " and " + nextPoint.stationName);
 			    Tuple<List<Vector3>, List<Vector3>> bezier = MakeBezierBetweenTwoPoints(
 				    new Vector3(100.0f * (float) point.lat, cityHeight, 100.0f * (float) point.lng),
-				    new Vector3(100.0f * (float) nextPoint.lat, cityHeight, 100.0f * (float) nextPoint.lng),
+				    new Vector3(100.0f * (float) nextPoint.lat, cityHeight, 100.0f * (float) nextPoint.lng)
 			    );
 			    Tuple<List<Vector3>, List<Vector3>> rails = GenerateRails(bezier);
 			    DisplayRails(rails.Item1, 0);
