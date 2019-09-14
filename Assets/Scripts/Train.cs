@@ -18,7 +18,11 @@ public class Train : MonoBehaviour
 
     public void FollowPath(TrainPath path)
     {
-        
+        var d = Run.EachFrame(() =>
+        {
+            //run
+            
+        });
 
     }
 
