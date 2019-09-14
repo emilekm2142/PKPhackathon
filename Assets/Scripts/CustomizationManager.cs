@@ -23,7 +23,7 @@ public class CustomizationManager : MonoBehaviour
         ApiManager apiManager = GameObject.FindObjectOfType<ApiManager>();
         PresetManager presetManager = GameObject.FindObjectOfType<PresetManager>();
 
-        int presetId = apiManager.GetPreset();
+        int presetId = (int) apiManager.User.activeSkinId;
         Preset preset = presetManager.presetList[presetId];
         myWagon.ChangeColor(preset.color);
         myWagon.ChangeTexture(preset.texture);
