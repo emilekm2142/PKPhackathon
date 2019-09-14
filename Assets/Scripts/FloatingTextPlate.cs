@@ -10,6 +10,7 @@ public class FloatingTextPlate : MonoBehaviour
     {
         transform.LookAt(transform.position + m_Camera.transform.rotation * Vector3.back,
             m_Camera.transform.rotation * Vector3.up);
+        transform.Rotate(new Vector3(90, 0, 0));
     }
 }
 
