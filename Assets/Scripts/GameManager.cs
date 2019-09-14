@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public List<TrainPath> trainPaths  = new List<TrainPath>();
     public CustomizationManager customizationManager;
     // Start is called before the first frame update
     private void Awake()
