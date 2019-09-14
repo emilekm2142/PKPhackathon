@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
-        LoadCities();
+       // LoadCities();
         var t = MakeTrain("Tomek", TrainTypes.Thomans, new Vector3(0, 0, 0));
         var l = MakeBezierBetweenTwoPoints(new Vector3(14, 0, 25), new Vector3(0, 0, 0), 15);
         for (var i2 =0; i2<l.Item1.Count-1; i2+=90){
@@ -52,8 +52,10 @@ public class GameManager : MonoBehaviour
 
         makeRails(l.Item1, 0);
         
-        t.AddWagon(false);
-        
+        var wagen = t.AddWagon(false);
+        var path = MakePath("Posen-Berlin", new Vector3(0, 0, 0), new Vector3(6, 0, 6));
+        t.FollowPath(path);
+
     }
 
     Train MakeTrain(string name, TrainTypes type, Vector3 position)

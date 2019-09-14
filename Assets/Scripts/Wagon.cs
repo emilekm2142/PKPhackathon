@@ -1,18 +1,46 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Wagon : MonoBehaviour
 {
+    public bool colliding;
     // Start is called before the first frame update
     void Start()
     {
         
     }
+    public void OnTriggerEnter(Collider other){
+        colliding =true;
+    }
 
-    void GoToPosition(Vector3 position)
+    public void OnTriggerStay(Collider other)
     {
-        
+       // colliding = true;
+    }
+
+    public void OnTriggerExit(Collider other){
+        colliding =false;
+    }
+    private TrainPath currentPath;
+
+    public void FollowPath(TrainPath path)
+    {
+        currentPath = path;
+        var i = 0;
+        Run.EachFrame(() =>
+        {
+            if (!colliding)
+            {
+                if (i < currentPath.points.Count - 1)
+                {
+                    gameObject.transform.position = currentPath.points[i];
+                    gameObject.transform.LookAt(currentPath.points[i + 1]);
+                    i++;
+                }
+            }
+        });
     }
 
     bool IsPlayer()

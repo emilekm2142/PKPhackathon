@@ -16,47 +16,36 @@ public class Train : MonoBehaviour
 
     void Start()
     {
+        thomas = GetComponentInChildren<Thomas>();
     }
 
     public void FollowPath(TrainPath path)
     {
-        currentPath = path;
-        var i = 0;
-        var wagonNo = 0;
-        foreach (var wagon in wagons)
+        Start();
+        thomas.FollowPath(path);
+        for (int i = 0; i < wagons.Count; i++)
         {
-            wagonNo++;
-            Run.After(wagonNo + 1, () =>
+            Debug.Log(i);
+            var d = i; 
+            Run.After(0, () =>
             {
-                Run.EachFrame(() =>
-                {
-                    if (i < currentPath.points.Count - 1)
-                    {
-                        gameObject.transform.position = currentPath.points[i];
-                        gameObject.transform.LookAt(currentPath.points[i + 1]);
-                        i++;
-                    }
-                });
-            });
-
+              
+                Debug.Log(i);
+                Debug.Log(d);
+                wagons[d].FollowPath(path);
+              });
+           
         }
-        Run.EachFrame(() =>
-        {
-            if (i < currentPath.points.Count - 1)
-            {
-                gameObject.transform.position = currentPath.points[i];
-                gameObject.transform.LookAt(currentPath.points[i+1]);
-                i++;
-            }
-        });
     }
 
-    public void AddWagon(bool isPlayer)
+    public Wagon AddWagon(bool isPlayer)
     {
-        var wagon = Instantiate(GameObject.FindObjectOfType<GameManager>().wagonPrefab, new Vector3(0, 0, 0),
+        var wagon = Instantiate(GameObject.FindObjectOfType<GameManager>().wagonPrefab, new Vector3(5, 0, 5),
             Quaternion.identity);
         wagon.name ="Wagon of " + name;
+       
         wagons.Add(wagon.GetComponent<Wagon>());
+        return wagon.GetComponent<Wagon>();
     }
 
 
