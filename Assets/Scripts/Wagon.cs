@@ -24,6 +24,11 @@ public class Wagon : MonoBehaviour
     {
         GetComponent<Renderer>().material.color = c;
     }
+
+    public void ChangeTexture(Texture2D t)
+    {
+        GetComponent<Renderer>().material.mainTexture = t;
+    }
     
     // Update is called once per frame
     void Update()
