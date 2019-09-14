@@ -7,22 +7,38 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject cityPrefab;
+    public GameObject trainPrefab;
+    public GameObject thomasPrefab;
+    public GameObject pendolinoPrefab;
     public List<TrainPath> trainPaths  = new List<TrainPath>();
     public CustomizationManager customizationManager;
     // Start is called before the first frame update
     private void Awake()
     {
+        
         customizationManager = GameObject.FindObjectOfType<CustomizationManager>();
     }
 
     void Start()
     {
-        
+        MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
     }
 
-    Train MakeTrain(TrainTypes type)
+    Train MakeTrain(string name, TrainTypes type, Vector3 position)
     {
-        return null;
+        var a = Instantiate(trainPrefab, position, Quaternion.identity);
+        var train = a.GetComponent<Train>();
+        train.name = name;
+        GameObject lokomotywa = null;
+        if (type == TrainTypes.Thomans)
+        {
+            lokomotywa = Instantiate(thomasPrefab, train.gameObject.transform);
+        }
+        else if(type == TrainTypes.Pendolino)
+        {
+            lokomotywa = Instantiate(pendolinoPrefab, train.gameObject.transform);
+        }
+        return train;
     }
 
     City MakeCity(string name, Vector3 position)
