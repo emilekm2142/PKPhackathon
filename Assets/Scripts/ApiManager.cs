@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
 
 public class ApiManager : MonoBehaviour
 {
-    private const string baseUrl = "http://";
-    private int userId = 0;
-    
+    private const string baseUrl = "http://10.250.193.41:8080/";
+    private int userId = 1;
+    public User User { get; private set; }
+    public TrainRide TrainRide { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        FetchUser();
+        FetchTrainRide();
     }
 
     // Update is called once per frame
@@ -20,10 +25,33 @@ public class ApiManager : MonoBehaviour
         
     }
 
-    public int GetPreset()
+    public void FetchUser()
     {
-//        HttpWebRequest request = (HttpWebRequest)WebRequest.Create();
-        return 0;
+        HttpWebRequest request = (HttpWebRequest) WebRequest.Create(baseUrl + "user/" + userId);
+        HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+
+        DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(User));
+        Stream stream = response.GetResponseStream();
+        if (stream == null)
+        {
+            Debug.LogError("API Response is null");
+            return;
+        }
+        User = (User) deserializer.ReadObject(stream);
     }
     
+    public void FetchTrainRide()
+    {
+        HttpWebRequest request = (HttpWebRequest) WebRequest.Create(baseUrl + "train-ride/" + User.currentTrainRide);
+        HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+
+        DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(TrainRide));
+        Stream stream = response.GetResponseStream();
+        if (stream == null)
+        {
+            Debug.LogError("API Response is null");
+        }
+        TrainRide = (TrainRide) deserializer.ReadObject(stream);
+    }
+
 }
