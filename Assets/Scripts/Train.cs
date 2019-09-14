@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Train : MonoBehaviour
 {
+    public string name;
+
+    public string currentWayName;
+    public List<Vector3> currentWay;
+    public float timePassedSinceWayBegin;
+    
+    public bool isFollowingAnyPath = false;
     // Start is called before the first frame update
     public Thomas thomas;
     List<Wagon> wagons = new List<Wagon>();
@@ -12,9 +19,11 @@ public class Train : MonoBehaviour
         
     }
 
-    public void GoToPosition(Vector3 p)
+    public void FollowPath(List<Vector3> path, float length)
     {
-        this.transform.position = p;
+        isFollowingAnyPath = true;
+        currentWayName = "Warszawa Inowroclaw";
+        
     }
 
     public void AddWagon(Wagon w)
