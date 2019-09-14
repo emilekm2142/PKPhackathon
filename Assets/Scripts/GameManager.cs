@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
         apiManager = GameObject.FindObjectOfType<ApiManager>();
     }
 
-    GameObject makeRails(List<Vector3> points, float offset)
-    {
+    GameObject DisplayRails(List<Vector3> points, float offset)
+    { 
 	    var go = Instantiate(railSegmentPrefab, new Vector3(0, 0, 0), Quaternion.identity);
     var x = go.GetComponent<LineRenderer>();
     x.positionCount = points.Count;
@@ -49,10 +49,7 @@ public class GameManager : MonoBehaviour
 	        Debug.DrawLine(l.Item1[i2], l.Item1[i2+1], Color.red, 1000);
 
         }
-
-        makeRails(l.Item1, 0);
-
-        makeRails(l.Item1, 2f);
+        
 
         foreach (var user in apiManager.users)
         {
