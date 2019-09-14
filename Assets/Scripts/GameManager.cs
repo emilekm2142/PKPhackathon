@@ -51,7 +51,8 @@ public class GameManager : MonoBehaviour
         }
 
         makeRails(l.Item1, 0);
-        makeRails(l.Item1, 2f);
+        
+        t.AddWagon(false);
         
     }
 

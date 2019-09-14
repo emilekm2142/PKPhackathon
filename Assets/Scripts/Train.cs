@@ -22,6 +22,24 @@ public class Train : MonoBehaviour
     {
         currentPath = path;
         var i = 0;
+        var wagonNo = 0;
+        foreach (var wagon in wagons)
+        {
+            wagonNo++;
+            Run.After(wagonNo + 1, () =>
+            {
+                Run.EachFrame(() =>
+                {
+                    if (i < currentPath.points.Count - 1)
+                    {
+                        gameObject.transform.position = currentPath.points[i];
+                        gameObject.transform.LookAt(currentPath.points[i + 1]);
+                        i++;
+                    }
+                });
+            });
+
+        }
         Run.EachFrame(() =>
         {
             if (i < currentPath.points.Count - 1)
@@ -37,6 +55,7 @@ public class Train : MonoBehaviour
     {
         var wagon = Instantiate(GameObject.FindObjectOfType<GameManager>().wagonPrefab, new Vector3(0, 0, 0),
             Quaternion.identity);
+        wagon.name ="Wagon of " + name;
         wagons.Add(wagon.GetComponent<Wagon>());
     }
 
