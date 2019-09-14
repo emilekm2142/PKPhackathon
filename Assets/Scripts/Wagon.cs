@@ -10,6 +10,16 @@ public class Wagon : MonoBehaviour
         
     }
 
+    void GoToPosition(Vector3 position)
+    {
+        
+    }
+
+    void ChangeColor(Color c)
+    {
+        GetComponent<Renderer>().material.color = c;
+    }
+    
     // Update is called once per frame
     void Update()
     {
