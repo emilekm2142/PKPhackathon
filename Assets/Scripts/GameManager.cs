@@ -51,10 +51,13 @@ public class GameManager : MonoBehaviour
         }
 
         makeRails(l.Item1, 0);
-        
-        var wagen = t.AddWagon(false);
-        var path = MakePath("Posen-Berlin", new Vector3(0, 0, 0), new Vector3(6, 0, 6));
-        t.FollowPath(path);
+
+        makeRails(l.Item1, 2f);
+
+        foreach (var user in apiManager.users)
+        {
+	        t.AddWagon(false);
+        }
 
     }
 
@@ -127,6 +130,24 @@ public class GameManager : MonoBehaviour
 		var tuple = new Tuple<List<Vector3>, List<Vector3>>(curve,direction);
 
 		return tuple;
+    }
+	public Tuple<List<Vector3>, List<Vector3>> GenerateRails(Tuple<List<Vector3>, List<Vector3>> path, float trackWidth=1.0f)
+    {
+	    var left = new List<Vector3>();
+	    var right = new List<Vector3>();
+	    for (int i = 0; i < path.Item1.Count; i++)
+	    {
+		    float x = path.Item1[i][0];
+		    float y = path.Item1[i][1];
+		    float z = path.Item1[i][2];
+		    
+		    float dirX = path.Item2[i][0];
+		    float dirY = path.Item2[i][1];
+		    float dirZ = path.Item2[i][2];
+		    left.Add(new Vector3(x+dirZ, 0, z-dirX));
+		    right.Add(new Vector3(x-dirZ, 0, z+dirX));
+	    }
+	    return new Tuple<List<Vector3>, List<Vector3>>(left, right);
     }
 
     private void LoadCities()
