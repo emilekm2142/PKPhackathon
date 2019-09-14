@@ -129,6 +129,24 @@ public class GameManager : MonoBehaviour
 
 		return tuple;
     }
+	public Tuple<List<Vector3>, List<Vector3>> GenerateRails(Tuple<List<Vector3>, List<Vector3>> path, float trackWidth=1.0f)
+    {
+	    var left = new List<Vector3>();
+	    var right = new List<Vector3>();
+	    for (int i = 0; i < path.Item1.Count; i++)
+	    {
+		    float x = path.Item1[i][0];
+		    float y = path.Item1[i][1];
+		    float z = path.Item1[i][2];
+		    
+		    float dirX = path.Item2[i][0];
+		    float dirY = path.Item2[i][1];
+		    float dirZ = path.Item2[i][2];
+		    left.Add(new Vector3(x+dirZ, 0, z-dirX));
+		    right.Add(new Vector3(x-dirZ, 0, z+dirX));
+	    }
+	    return new Tuple<List<Vector3>, List<Vector3>>(left, right);
+    }
 
     private void LoadCities()
     {
