@@ -26,10 +26,11 @@ public class Train : MonoBehaviour
         });
 
     }
-    public void AddWagon(Wagon w)
+    public void AddWagon(bool isPlayer)
     {
-        //make joint
-        wagons.Add(w);
+        var wagon = Instantiate(GameObject.FindObjectOfType<GameManager>().wagonPrefab, new Vector3(0, 0, 0),
+            Quaternion.identity);
+        wagons.Add(wagon.GetComponent<Wagon>());
     }
     
     

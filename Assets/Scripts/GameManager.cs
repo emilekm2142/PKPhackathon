@@ -10,6 +10,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class GameManager : MonoBehaviour
 {
+	public GameObject wagonPrefab;
 	public GameObject railSegmentPrefab;
     public GameObject cityPrefab;
     public GameObject trainPrefab;
