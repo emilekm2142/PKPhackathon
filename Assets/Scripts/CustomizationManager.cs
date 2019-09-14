@@ -26,5 +26,6 @@ public class CustomizationManager : MonoBehaviour
         int presetId = apiManager.GetPreset();
         Preset preset = presetManager.presetList[presetId];
         myWagon.ChangeColor(preset.color);
+        myWagon.ChangeTexture(preset.texture);
     }
 }
