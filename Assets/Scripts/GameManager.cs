@@ -113,12 +113,12 @@ public class GameManager : MonoBehaviour
 
     private void LoadCities()
     {
-	    Point point = apiManager.TrainRide.points[0];
-	    MakeCity(point.stationName, new Vector3((float) point.lat, 1.276719f, (float) point.lng));
-//	    foreach (var point in apiManager.TrainRide.points)
-//	    {
-//		    MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
-//	    }
+    
+	    for (int i = 0; i < Math.Min(10, apiManager.TrainRide.points.Count); i++)
+	    {
+		    Point point = apiManager.TrainRide.points[i];
+		    MakeCity(point.stationName, new Vector3(100.0f * (float) point.lat, 1.276719f, 100.0f * (float) point.lng));
+	    }
     }
     // Update is called once per frame
     void Update()
