@@ -19,6 +19,7 @@ public class Train : MonoBehaviour
 
     public void AddWagon(Wagon w)
     {
+        //make joint
         wagons.Add(w);
     }
     
