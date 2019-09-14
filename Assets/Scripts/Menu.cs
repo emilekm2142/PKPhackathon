@@ -7,4 +7,11 @@ public class Menu : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene");
     }
+
+    public void ChangeScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+    
+    
 }
