@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using DefaultNamespace;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
 using Random = System.Random;
+using Vector3 = UnityEngine.Vector3;
 
 public class GameManager : MonoBehaviour
 {
+	public GameObject railSegmentPrefab;
     public GameObject cityPrefab;
     public GameObject trainPrefab;
     public GameObject thomasPrefab;
@@ -20,26 +24,43 @@ public class GameManager : MonoBehaviour
         customizationManager = GameObject.FindObjectOfType<CustomizationManager>();
     }
 
+    GameObject makeRails(List<Vector3> points, float offset)
+    {
+	    var go = Instantiate(railSegmentPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+    var x = go.GetComponent<LineRenderer>();
+    x.positionCount = points.Count;
+    for (int i = 0; i < points.Count; i++)
+    {
+	    x.SetPosition(i, points[i] + new Vector3(offset,0,0));
+    }
+
+    return go;
+    }
     void Start()
     {
         MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
         var t = MakeTrain("Tomek", TrainTypes.Thomans, new Vector3(0, 0, 0));
-
-        var l = MakeBezierBetweenTwoPoints(new Vector3(14, 1.276719f, 25), new Vector3(0, 0, 0), 5);
+       //var t = Instantiate(railSegmentPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        var l = MakeBezierBetweenTwoPoints(new Vector3(14, 0, 25), new Vector3(0, 0, 0), 15);
         
-        for (var i2 =0; i2<l.Item1.Count-1; i2++){
+        for (var i2 =0; i2<l.Item1.Count-1; i2+=90){
+	       // var a = Instantiate(railSegmentPrefab, l.Item1[i2], Quaternion.identity);
+	        t.gameObject.transform.rotation = Quaternion.Euler(l.Item2[i2]);
 	        Debug.DrawLine(l.Item1[i2], l.Item1[i2+1], Color.red, 1000);
         }
+
+        makeRails(l.Item1, 0);
+        makeRails(l.Item1, 2f);
         var i = 0;
         Run.EachFrame(() =>
         {
-	       // Debug.Log("joy");
+	       
 	  
 	        if (i<l.Item1.Count-1){
 		       
 		        t.gameObject.transform.position = l.Item1[i];
-		        t.gameObject.transform.rotation = Quaternion.Euler(l.Item2[i]);
-		        i+=200;
+		        t.gameObject.transform.LookAt(l.Item2[i]);
+		        i+=20;
 	        }
 	        
         });
@@ -66,6 +87,7 @@ public class GameManager : MonoBehaviour
     City MakeCity(string name, Vector3 position)
     {
         var a = Instantiate(cityPrefab, position, Quaternion.identity);
+        a.gameObject.name = name;
         a.GetComponent<City>().name = name;
         return a.GetComponent<City>();
     }
