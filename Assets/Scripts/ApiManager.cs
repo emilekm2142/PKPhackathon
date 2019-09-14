@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -12,11 +13,16 @@ public class ApiManager : MonoBehaviour
     public User User { get; private set; }
     public TrainRide TrainRide { get; private set; }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         FetchUser();
         FetchTrainRide();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame

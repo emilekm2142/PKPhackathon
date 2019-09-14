@@ -17,11 +17,13 @@ public class GameManager : MonoBehaviour
     public GameObject pendolinoPrefab;
     public List<TrainPath> trainPaths  = new List<TrainPath>();
     public CustomizationManager customizationManager;
+    public ApiManager apiManager;
     // Start is called before the first frame update
     private void Awake()
     {
         
         customizationManager = GameObject.FindObjectOfType<CustomizationManager>();
+        apiManager = GameObject.FindObjectOfType<ApiManager>();
     }
 
     GameObject makeRails(List<Vector3> points, float offset)
@@ -39,7 +41,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
+        LoadCities();
         var t = MakeTrain("Tomek", TrainTypes.Thomans, new Vector3(0, 0, 0));
+
        //var t = Instantiate(railSegmentPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         var l = MakeBezierBetweenTwoPoints(new Vector3(14, 0, 25), new Vector3(0, 0, 0), 15);
         
@@ -47,6 +51,7 @@ public class GameManager : MonoBehaviour
 	       // var a = Instantiate(railSegmentPrefab, l.Item1[i2], Quaternion.identity);
 	        t.gameObject.transform.rotation = Quaternion.Euler(l.Item2[i2]);
 	        Debug.DrawLine(l.Item1[i2], l.Item1[i2+1], Color.red, 1000);
+
         }
 
         makeRails(l.Item1, 0);
@@ -61,10 +66,10 @@ public class GameManager : MonoBehaviour
 		        t.gameObject.transform.position = l.Item1[i];
 		        t.gameObject.transform.LookAt(l.Item2[i]);
 		        i+=20;
+
 	        }
 	        
         });
-       
     }
 
     Train MakeTrain(string name, TrainTypes type, Vector3 position)
@@ -96,33 +101,49 @@ public class GameManager : MonoBehaviour
     {
 	    float angle1 = UnityEngine.Random.Range(0.0f, 6.28f);
 	    float angle2 = UnityEngine.Random.Range(0.0f, 6.28f);
+	    angle1 = 0;
+	    angle2 = 0;
 	    Vector3 B = A + new Vector3(Mathf.Cos(angle1)*distance, 0, 0) + new Vector3(Mathf.Sin(angle1), 0, 0);
 	    Vector3 C = D + new Vector3(Mathf.Cos(angle2)*distance, 0, 0) + new Vector3(Mathf.Sin(angle2), 0, 0);
 	    
-		int interpolation_points = 10000;
+		int interpolationPoints = 1000;
+		float dt = 1.0f / interpolationPoints;
 		var curve = new List<Vector3>();
 		var direction = new List<Vector3>();
 		//Calculating the total length of the path to know what the interpolation distance should be
 		float totalLength = 0;
-		for (int i=1; i<interpolation_points; i++){
-			float t = i/interpolation_points;
+		for (int i=1; i<interpolationPoints; i++){
+			float t = i/interpolationPoints;
 			Vector3 derivative = (-A*3*Mathf.Pow((1-t),2) + 3*B*Mathf.Pow((1-t),2) - 6.0f*B*t*(1-t) +6.0f*C*t*(1-t)-3*C*t*t + 3*D*t*t);
-			float speed = Mathf.Sqrt(derivative[0]*derivative[0] + derivative[1]*derivative[1]);
-			totalLength += speed;
+			float speed = Mathf.Sqrt(derivative[0]*derivative[0] + derivative[1]*derivative[1]+ derivative[2]*derivative[2]);
+			totalLength += speed * dt;
 		}
 		
 	    float t2 = 0;
+	    float interpolationLength = 0.1f;
+	    //calculating the number of samples in the final path
+	    interpolationPoints = (int)(totalLength / interpolationLength);
 		while (t2<1){
 			Vector3 curvePoint = A*Mathf.Pow((1-t2),3) + 3*B*t2*(1-t2)*(1-t2) + 3*C*t2*t2*(1-t2) + D*t2*t2*t2;
 			Vector3 derivative = (-A*3*Mathf.Pow((1-t2),2) + 3*B*Mathf.Pow((1-t2),2) - 6*B*t2*(1-t2) +6*C*t2*(1-t2)-3*C*t2*t2 + 3*D*t2*t2);
-			float speed = Mathf.Sqrt(derivative[0]*derivative[0] + derivative[1]*derivative[1]);
+			float speed = Mathf.Sqrt(derivative[0]*derivative[0] + derivative[1]*derivative[1]+ derivative[2]*derivative[2]);
 			curve.Add(curvePoint);
 			direction.Add(derivative/speed);
-			t2 += 1.0f/interpolation_points*(totalLength/interpolation_points)/speed;
+			t2 += interpolationLength / speed;
 		}
 		var tuple = new Tuple<List<Vector3>, List<Vector3>>(curve,direction);
 
 		return tuple;
+    }
+
+    private void LoadCities()
+    {
+    
+	    for (int i = 0; i < Math.Min(10, apiManager.TrainRide.points.Count); i++)
+	    {
+		    Point point = apiManager.TrainRide.points[i];
+		    MakeCity(point.stationName, new Vector3(100.0f * (float) point.lat, 1.276719f, 100.0f * (float) point.lng));
+	    }
     }
     // Update is called once per frame
     void Update()
