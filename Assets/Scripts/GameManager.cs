@@ -44,33 +44,15 @@ public class GameManager : MonoBehaviour
         MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
         LoadCities();
         var t = MakeTrain("Tomek", TrainTypes.Thomans, new Vector3(0, 0, 0));
-
-       //var t = Instantiate(railSegmentPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         var l = MakeBezierBetweenTwoPoints(new Vector3(14, 0, 25), new Vector3(0, 0, 0), 15);
-        
         for (var i2 =0; i2<l.Item1.Count-1; i2+=90){
-	       // var a = Instantiate(railSegmentPrefab, l.Item1[i2], Quaternion.identity);
-	        t.gameObject.transform.rotation = Quaternion.Euler(l.Item2[i2]);
 	        Debug.DrawLine(l.Item1[i2], l.Item1[i2+1], Color.red, 1000);
 
         }
 
         makeRails(l.Item1, 0);
         makeRails(l.Item1, 2f);
-        var i = 0;
-        Run.EachFrame(() =>
-        {
-	       
-	  
-	        if (i<l.Item1.Count-1){
-		       
-		        t.gameObject.transform.position = l.Item1[i];
-		        t.gameObject.transform.LookAt(l.Item2[i]);
-		        i+=20;
-
-	        }
-	        
-        });
+        
     }
 
     Train MakeTrain(string name, TrainTypes type, Vector3 position)
@@ -97,7 +79,14 @@ public class GameManager : MonoBehaviour
         a.GetComponent<City>().name = name;
         return a.GetComponent<City>();
     }
-    
+
+    TrainPath MakePath(string name, Vector3 start, Vector3 end)
+    {
+	    var a =new TrainPath();
+	    a.name = name;
+	    a.points = MakeBezierBetweenTwoPoints(start, end, 25).Item1;
+	    return a;
+    }
     public Tuple<List<Vector3>, List<Vector3>> MakeBezierBetweenTwoPoints(Vector3 A, Vector3 D, float distance = 1.0f)
     {
 	    float angle1 = UnityEngine.Random.Range(0.0f, 6.28f);
