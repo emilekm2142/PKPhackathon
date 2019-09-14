@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using Random = System.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class GameManager : MonoBehaviour
     public GameObject pendolinoPrefab;
     public List<TrainPath> trainPaths  = new List<TrainPath>();
     public CustomizationManager customizationManager;
-
     public ApiManager apiManager;
     // Start is called before the first frame update
     private void Awake()
@@ -26,11 +26,31 @@ public class GameManager : MonoBehaviour
     {
         MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
         LoadCities();
+        var t = MakeTrain("Tomek", TrainTypes.Thomans, new Vector3(0, 0, 0));
+
+        var l = MakeBezierBetweenTwoPoints(new Vector3(14, 1.276719f, 25), new Vector3(0, 0, 0), 5);
+        
+        for (var i2 =0; i2<l.Item1.Count-1; i2++){
+	        Debug.DrawLine(l.Item1[i2], l.Item1[i2+1], Color.red, 1000);
+        }
+        var i = 0;
+        Run.EachFrame(() =>
+        {
+	       // Debug.Log("joy");
+	  
+	        if (i<l.Item1.Count-1){
+		       
+		        t.gameObject.transform.position = l.Item1[i];
+		        t.gameObject.transform.rotation = Quaternion.Euler(l.Item2[i]);
+		        i+=200;
+	        }
+	        
+        });
     }
 
     Train MakeTrain(string name, TrainTypes type, Vector3 position)
     {
-        var a = Instantiate(trainPrefab, position, Quaternion.identity);
+	    var a = Instantiate(trainPrefab, position, Quaternion.identity);
         var train = a.GetComponent<Train>();
         train.name = name;
         GameObject lokomotywa = null;
@@ -51,8 +71,14 @@ public class GameManager : MonoBehaviour
         a.GetComponent<City>().name = name;
         return a.GetComponent<City>();
     }
-    public Tuple<List<Vector3>, List<Vector3>> MakeBezierBetweenTwoPoints(Vector3 A, Vector3 B, Vector3 C, Vector3 D)
+    
+    public Tuple<List<Vector3>, List<Vector3>> MakeBezierBetweenTwoPoints(Vector3 A, Vector3 D, float distance = 1.0f)
     {
+	    float angle1 = UnityEngine.Random.Range(0.0f, 6.28f);
+	    float angle2 = UnityEngine.Random.Range(0.0f, 6.28f);
+	    Vector3 B = A + new Vector3(Mathf.Cos(angle1)*distance, 0, 0) + new Vector3(Mathf.Sin(angle1), 0, 0);
+	    Vector3 C = D + new Vector3(Mathf.Cos(angle2)*distance, 0, 0) + new Vector3(Mathf.Sin(angle2), 0, 0);
+	    
 		int interpolation_points = 10000;
 		var curve = new List<Vector3>();
 		var direction = new List<Vector3>();
@@ -72,7 +98,7 @@ public class GameManager : MonoBehaviour
 			float speed = Mathf.Sqrt(derivative[0]*derivative[0] + derivative[1]*derivative[1]);
 			curve.Add(curvePoint);
 			direction.Add(derivative/speed);
-			t2 += 1/interpolation_points*(totalLength/interpolation_points)/speed;
+			t2 += 1.0f/interpolation_points*(totalLength/interpolation_points)/speed;
 		}
 		var tuple = new Tuple<List<Vector3>, List<Vector3>>(curve,direction);
 
