@@ -10,6 +10,21 @@ public class Wagon : MonoBehaviour
         
     }
 
+    void GoToPosition(Vector3 position)
+    {
+        
+    }
+
+    bool IsPlayer()
+    {
+        return Utils.HasComponent<Player>(this.gameObject);
+    }
+
+    void ChangeColor(Color c)
+    {
+        GetComponent<Renderer>().material.color = c;
+    }
+    
     // Update is called once per frame
     void Update()
     {
