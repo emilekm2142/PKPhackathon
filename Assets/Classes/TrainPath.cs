@@ -1,11 +1,12 @@
 ﻿
     using System.Collections.Generic;
-    using UnityEngine;
-[System.Serializable]
+    using System.Numerics;
+    using Vector3 = UnityEngine.Vector3;
+
+    [System.Serializable]
     public class TrainPath
     {
+        public List<Vector3> points = new List<Vector3>();
         public string name;
-        public Vector3 start;
-        public Vector3 end;
-        public Vector3 handle;
+     
     }
