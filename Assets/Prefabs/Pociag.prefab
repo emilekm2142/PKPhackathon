@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7939992581419758800}
-  - component: {fileID: 7939992581419758801}
   - component: {fileID: 4832158886109084172}
   m_Layer: 0
   m_Name: Pociag
@@ -32,26 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7939992581419758801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7939992581419758814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c75d70b4d0791f84982d1d57c706641b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cityPrefab: {fileID: 2440280975088206817, guid: 304f111ea391f3e4a87f50d45f928753,
-    type: 3}
-  trainPaths:
-  - name: Warszawa-Gdansk
-    start: {x: 0, y: 0, z: 0}
-    end: {x: 0, y: 0, z: 0}
-    handle: {x: 0, y: 0, z: 0}
-  customizationManager: {fileID: 0}
 --- !u!114 &4832158886109084172
 MonoBehaviour:
   m_ObjectHideFlags: 0
