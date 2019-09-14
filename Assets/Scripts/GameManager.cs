@@ -41,8 +41,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
-       // LoadCities();
+	    LoadCities();
         var t = MakeTrain("Tomek", TrainTypes.Thomans, new Vector3(0, 0, 0));
         var l = MakeBezierBetweenTwoPoints(new Vector3(14, 0, 25), new Vector3(0, 0, 0), 15);
         for (var i2 =0; i2<l.Item1.Count-1; i2+=90){
@@ -149,11 +148,25 @@ public class GameManager : MonoBehaviour
 
     private void LoadCities()
     {
-    
-	    for (int i = 0; i < Math.Min(10, apiManager.TrainRide.points.Count); i++)
+	    const float cityHeight = 1.276719f;
+	    int stationsToMake = Math.Min(10, apiManager.TrainRide.points.Count);
+	    for (int i = 0; i < stationsToMake; i++)
 	    {
 		    Point point = apiManager.TrainRide.points[i];
-		    MakeCity(point.stationName, new Vector3(100.0f * (float) point.lat, 1.276719f, 100.0f * (float) point.lng));
+		    MakeCity(point.stationName, new Vector3(100.0f * (float) point.lat, cityHeight, 100.0f * (float) point.lng));
+
+		    if (i < stationsToMake - 1)
+		    {
+			    Point nextPoint = apiManager.TrainRide.points[i + 1];
+			    Debug.Log("Making rails between " + point.stationName + " and " + nextPoint.stationName);
+			    Tuple<List<Vector3>, List<Vector3>> bezier = MakeBezierBetweenTwoPoints(
+				    new Vector3(100.0f * (float) point.lat, cityHeight, 100.0f * (float) point.lng),
+				    new Vector3(100.0f * (float) nextPoint.lat, cityHeight, 100.0f * (float) nextPoint.lng),
+			    );
+			    Tuple<List<Vector3>, List<Vector3>> rails = GenerateRails(bezier);
+			    DisplayRails(rails.Item1, 0);
+			    DisplayRails(rails.Item2, 0);
+		    }
 	    }
     }
     // Update is called once per frame
