@@ -8,7 +8,7 @@ public class TrainRide
     public string trainRideId { get; set; }
     
     [DataMember]
-    public List<long> pointIds { get; set; }
+    public List<Point> points { get; set; }
     
     [DataMember]
     public long lastVisitedPointId { get; set; }

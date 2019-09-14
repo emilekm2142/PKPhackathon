@@ -17,10 +17,10 @@ public class User
     public long credits { get; set; }
     
     [DataMember]
-    public List<long> skinIds { get; set; }
+    public List<Skin> skins { get; set; }
     
     [DataMember]
-    public List<long> carriageIds { get; set; }
+    public List<Carriage> carriages { get; set; }
     
     [DataMember]
     public List<long> eggIds { get; set; }

@@ -12,16 +12,20 @@ public class GameManager : MonoBehaviour
     public GameObject pendolinoPrefab;
     public List<TrainPath> trainPaths  = new List<TrainPath>();
     public CustomizationManager customizationManager;
+
+    public ApiManager apiManager;
     // Start is called before the first frame update
     private void Awake()
     {
         
         customizationManager = GameObject.FindObjectOfType<CustomizationManager>();
+        apiManager = GameObject.FindObjectOfType<ApiManager>();
     }
 
     void Start()
     {
         MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
+        LoadCities();
     }
 
     Train MakeTrain(string name, TrainTypes type, Vector3 position)
@@ -73,6 +77,16 @@ public class GameManager : MonoBehaviour
 		var tuple = new Tuple<List<Vector3>, List<Vector3>>(curve,direction);
 
 		return tuple;
+    }
+
+    private void LoadCities()
+    {
+	    Point point = apiManager.TrainRide.points[0];
+	    MakeCity(point.stationName, new Vector3((float) point.lat, 1.276719f, (float) point.lng));
+//	    foreach (var point in apiManager.TrainRide.points)
+//	    {
+//		    MakeCity("Poznan", new Vector3(14, 1.276719f, 25));
+//	    }
     }
     // Update is called once per frame
     void Update()
