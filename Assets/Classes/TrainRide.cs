@@ -8,11 +8,8 @@ public class TrainRide
     public string trainRideId { get; set; }
     
     [DataMember]
-    public List<long> stations { get; set; }
+    public List<long> pointIds { get; set; }
     
     [DataMember]
-    public double lng { get; set; }
-    
-    [DataMember]
-    public double lat { get; set; }
+    public long lastVisitedPointId { get; set; }
 }
