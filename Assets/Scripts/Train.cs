@@ -12,7 +12,7 @@ public class Train : MonoBehaviour
         
     }
 
-    public GoToPosition(Vector3 p)
+    public void GoToPosition(Vector3 p)
     {
         this.transform.position = p;
     }
