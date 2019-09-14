@@ -19,11 +19,12 @@ public class GameManager : MonoBehaviour
     public List<TrainPath> trainPaths  = new List<TrainPath>();
     public CustomizationManager customizationManager;
     public ApiManager apiManager;
+    public List<Train> trains;
+    public const float cityHeight = 1.276719f;
     // Start is called before the first frame update
     private void Awake()
     {
-        
-        customizationManager = GameObject.FindObjectOfType<CustomizationManager>();
+	    customizationManager = GameObject.FindObjectOfType<CustomizationManager>();
         apiManager = GameObject.FindObjectOfType<ApiManager>();
     }
 
@@ -146,9 +147,8 @@ public class GameManager : MonoBehaviour
 	    return new Tuple<List<Vector3>, List<Vector3>>(left, right);
     }
 
-    private void LoadCities()
+	private void LoadCities()
     {
-	    const float cityHeight = 1.276719f;
 	    int stationsToMake = Math.Min(10, apiManager.TrainRide.points.Count);
 	    for (int i = 0; i < stationsToMake; i++)
 	    {
@@ -169,6 +169,20 @@ public class GameManager : MonoBehaviour
 		    }
 	    }
     }
+
+	private void LoadTrains()
+	{
+		foreach (var trainRide in apiManager.TrainRides)
+		{
+			Point firstPoint = trainRide.points[0];
+			
+			Train train = MakeTrain(
+				trainRide.trainRideId,
+				trainRide.train.trainType == "Pendolino" ? TrainTypes.Pendolino : TrainTypes.Thomans,
+				new Vector3(100.0f * (float) firstPoint.lat, cityHeight, 100.0f * (float) firstPoint.lng)
+			);
+		}
+	}
     // Update is called once per frame
     void Update()
     {

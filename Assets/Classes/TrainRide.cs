@@ -8,6 +8,9 @@ public class TrainRide
     public string trainRideId { get; set; }
     
     [DataMember]
+    public ApiTrain train { get; set;  }
+    
+    [DataMember]
     public List<Point> points { get; set; }
     
     [DataMember]
