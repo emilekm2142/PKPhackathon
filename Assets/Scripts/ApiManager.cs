@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomizationManager : MonoBehaviour
+public class ApiManager : MonoBehaviour
 {
-    public Wagon myWagon;
+    private int userId = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -18,8 +18,10 @@ public class CustomizationManager : MonoBehaviour
         
     }
 
-    void Fetch()
+    Color GetColor()
     {
-        
+//        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+        return new Color(1, 0, 1);
     }
+    
 }
