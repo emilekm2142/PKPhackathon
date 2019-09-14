@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Train : MonoBehaviour
 {
     public string name;
 
-    public string currentWayName;
-    public List<Vector3> currentWay;
-    public float timePassedSinceWayBegin;
-    
+    public TrainPath currentPath;
     public bool isFollowingAnyPath = false;
     // Start is called before the first frame update
     public Thomas thomas;
@@ -19,11 +17,14 @@ public class Train : MonoBehaviour
         
     }
 
-    public void FollowPath(List<Vector3> path, float length)
+    public void FollowPath(TrainPath path)
     {
-        isFollowingAnyPath = true;
-        currentWayName = "Warszawa Inowroclaw";
-        
+        var d = Run.EachFrame(() =>
+        {
+            //run
+            
+        });
+
     }
 
     public void AddWagon(Wagon w)
@@ -37,6 +38,7 @@ public class Train : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         
     }
 }
