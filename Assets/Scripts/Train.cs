@@ -17,6 +17,13 @@ public class Train : MonoBehaviour
         this.transform.position = p;
     }
 
+    public void AddWagon(Wagon w)
+    {
+        wagons.Add(w);
+    }
+    
+    
+
     // Update is called once per frame
     void Update()
     {

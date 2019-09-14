@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -15,6 +16,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
+    }
+
+    Train MakeTrain(TrainTypes type)
+    {
+        return null;
     }
 
     // Update is called once per frame
